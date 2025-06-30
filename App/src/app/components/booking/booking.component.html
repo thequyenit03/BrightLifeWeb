@@ -1,0 +1,50 @@
+<div class="container mt-5 mb-5">
+    <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+        <h4 class="text-primary display-4 mb-4">Đặt Lịch Khám</h4>
+    </div>
+    <div class="row">
+        <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="0.2s"> <img src="assets/img/team-1.jpg"
+                class="img-fluid doctor-img mb-3" alt="Doctor 1">
+            <h5>Bùi Ngọc Uyên Chi</h5>
+            <p> Bác sĩ chuyên khoa II</p> <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                data-bs-target="#modal">Đặt lịch khám</button>
+        </div>
+        <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="0.2s"> <img src="assets/img/team-2.jpg"
+                class="img-fluid doctor-img mb-3" alt="Doctor 2">
+            <h5>Bùi Tiến Sĩ</h5>
+            <p>Bác sĩ nội trú</p> <button class="btn btn-primary mt-2" data-bs-toggle="modal"
+                data-bs-target="#modal">Đặt lịch khám</button>
+        </div>
+        <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="0.2s"> <img src="assets/img/team-3.jpg"
+                class="img-fluid doctor-img mb-3" alt="Doctor 3">
+            <h5>Đào Huy Hoàng</h5>
+            <p>Bác sĩ</p> <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#modal">Đặt lịch
+                khám</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="doctor-modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="doctor-modalLabel">Đặt Lịch Khám</h5> <button type="button"
+                    class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3"> <label for="name" class="form-label fw-bold text-dark">Họ và tên</label> <input
+                            type="text" class="form-control" id="name" placeholder="Họ và tên"> </div>
+                    <div class="mb-3"> <label for="email" class="form-label fw-bold text-dark">Email</label> <input
+                            type="email" class="form-control" id="email" placeholder="Email"> </div>
+                    <div class="mb-3"> <label for="date" class="form-label fw-bold text-dark">Ngày đến khám</label>
+                        <input type="date" class="form-control" id="date"> </div>
+                    <div class="mb-3"> <label for="phone" class="form-label fw-bold text-dark">Số điện thoại</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Số điện thoại"> </div>
+                    <div class="mb-3"> <label for="message" class="form-label fw-bold text-dark">Thêm lời nhắn</label>
+                        <textarea class="form-control" id="message" rows="5" placeholder="Lời nhắn"></textarea> </div>
+                    <button type="submit" class="btn btn-primary">Đặt lịch</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
