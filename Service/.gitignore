@@ -1,0 +1,81 @@
+# ====================
+# Visual Studio
+# ====================
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ====================
+# Rider
+# ====================
+.idea/
+*.sln.iml
+
+# ====================
+# Build results
+# ====================
+bin/
+obj/
+publish/
+
+# ====================
+# NuGet
+# ====================
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+
+# ====================
+# ASP.NET / IIS Express
+# ====================
+appsettings.Development.json       # chứa config local/dev secrets
+secrets.json                       # nếu bạn dùng User Secrets
+iisexpress/
+wwwroot/node_modules/
+wwwroot/dist/
+
+# ====================
+# Logs and databases
+# ====================
+*.log
+logs/
+*.mdf
+*.ldf
+
+# ====================
+# Test results
+# ====================
+TestResults/
+*.trx
+
+# ====================
+# dotnet tools & cache
+# ====================
+*.dbmdl
+*.dotCover
+
+# ====================
+# VS Code
+# ====================
+.vscode/
+
+# ====================
+# OS files
+# ====================
+.DS_Store
+Thumbs.db
+
+# ====================
+# ReSharper
+# ====================
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# ====================
+# Others (tuỳ project)
+# ====================
+# Thêm nếu bạn có file local config, secrets, hoặc build artifacts riêng
+# my-local-config.json
+# build-artifact.zip
