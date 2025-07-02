@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {  RouterLink } from '@angular/router';
-import { NavigationService } from '../../model/navigation/navigation.service';
+import { NavigationService } from '../../../model/navigation/navigation.service';
+
 @Component({
   selector: 'app-footer',
   standalone: true,

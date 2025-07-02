@@ -1,14 +1,14 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './components/client/home/home.component';
 import { AppComponent } from './app.component';
-import { AboutComponent } from './components/about/about.component';
-import { ServicesComponent } from './components/services/services.component';
-import { BlogsComponent } from './components/blogs/blogs.component';
-import { DocterExpertsComponent } from './components/docter-experts/docter-experts.component';
-import { ContactComponent } from './components/contact/contact.component';
-import { VisionMissionComponent } from './components/vision-mission/vision-mission.component';
-import { BookingComponent } from './components/booking/booking.component';
-import { FormAnswerQuestionComponent } from './components/form-answer-question/form-answer-question.component';
+import { AboutComponent } from './components/client/about/about.component';
+import { ServicesComponent } from './components/client/services/services.component';
+import { BlogsComponent } from './components/client/blogs/blogs.component';
+import { DocterExpertsComponent } from './components/client/docter-experts/docter-experts.component';
+import { ContactComponent } from './components/client/contact/contact.component';
+import { VisionMissionComponent } from './components/client/vision-mission/vision-mission.component';
+import { BookingComponent } from './components/client/booking/booking.component';
+import { FormAnswerQuestionComponent } from './components/client/form-answer-question/form-answer-question.component';
 
 export const routes: Routes = [
     { path: '',component: HomeComponent   },

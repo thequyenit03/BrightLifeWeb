@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavigationService } from '../../model/navigation/navigation.service';
+import { NavigationService } from '../../../model/navigation/navigation.service';
+
 
 @Component({
   selector: 'app-about',
@@ -9,7 +10,8 @@ import { NavigationService } from '../../model/navigation/navigation.service';
   styleUrl: './about.component.css'
 })
 export class AboutComponent {
-  constructor(private navigationService: NavigationService){}
+  constructor(private navigationService: NavigationService
+  ){}
 
   navigateTo(route: string){
     this.navigationService.navigateTo(route);

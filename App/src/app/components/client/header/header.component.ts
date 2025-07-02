@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { NavigationService } from '../../model/navigation/navigation.service';
-import { Messages } from '../../model/lang/MessagesVN';
-import { getMessages } from '../../model/lang/Messages';
+
+import { NavigationService } from '../../../model/navigation/navigation.service';
+import { Messages } from '../../../model/lang/MessagesVN';
+import { getMessages } from '../../../model/lang/Messages';
 
 @Component({
   selector: 'app-header',
