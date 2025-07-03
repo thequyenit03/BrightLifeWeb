@@ -19,6 +19,8 @@
 bin/
 obj/
 publish/
+# Local development settings
+Service/appsettings.Development.json
 
 # ====================
 # NuGet
