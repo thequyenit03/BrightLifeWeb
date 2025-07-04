@@ -1,10 +1,11 @@
-﻿using Service.DTOs.User;
+﻿using Service.DTOs.Auth;
+using Service.DTOs.User;
 
 namespace Service.Services.Interface
 {
     public interface IJwtService
     {
-        string GenerateToken(UserDto user);
-        Task<UserDto?> ValidateTokenAsync(string token);
+        Task<string> GenerateTokenAsync(UserDto user);
+        Task<AuthResponse> ValidateTokenAsync(string token);
     }
 }

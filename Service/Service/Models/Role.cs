@@ -8,13 +8,13 @@ namespace Service.Models
     {
         [MaxLength(50)]
         [Required]
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         [MaxLength(200)]
         [Required]
         public string? Description { get; set; }
 
 
-        public virtual required ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserRole>? UserRoles { get; set; }
     }
 }

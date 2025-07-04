@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Service.Heplers;
 
 namespace Service.Models
 {
@@ -24,8 +25,6 @@ namespace Service.Models
                 .HasForeignKey(ur => ur.RoleId);
             modelBuilder.Entity<UserRole>()
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
-
         }
-       
     }
 }

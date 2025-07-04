@@ -6,24 +6,25 @@ namespace Service.Services
 {
     public class RoleService : IRoleService
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _context;
 
         public RoleService(ApplicationDbContext dbContext)
         {
-            _dbContext = dbContext;
+            _context = dbContext;
         }
-        public Task<List<string>> GetRoleByUserId(int userId)
+        public async Task<List<string>> GetRoleByUserId(int userId)
         {
-            if (string.IsNullOrEmpty(userId+""){
-                throw new ArgumentException("User ID cannot be null or empty.", nameof(userId));
-
+            if(string.IsNullOrEmpty(userId.ToString()) || userId <= 0)
+            {
+                throw new ArgumentException("UserId cannot be null or empty.", nameof(userId));
             }
-            return _dbContext.UserRoles
-                .Where(ur => ur.UserId == userId)
-                .Include(ur => ur.Roles)
-                .Select(ur => ur.Roles.Title)
-                .ToListAsync();
+            List<string> roles = await _context.Roles.Include(r => r.UserRoles)
+                .Where(r => r.UserRoles.Any(ur => ur.UserId == userId))
+                .Select(r => r.Name).ToListAsync();
+            return roles ?? new List<string>();
 
         }
+
+
     }
 }
