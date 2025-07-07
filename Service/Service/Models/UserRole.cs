@@ -4,15 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Service.Models
 {
     [Table("UserRoles")]
-    public class UserRole
+    public class UserRole:BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         public int UserId { get; set; }
         public int RoleId { get; set; } 
 
-        public virtual required User Users { get; set; } 
-        public virtual required Role Roles { get; set; }
+        public virtual User? Users { get; set; } 
+        public virtual Role? Roles { get; set; }
     }
 }
