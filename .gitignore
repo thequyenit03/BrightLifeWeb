@@ -1,1 +1,66 @@
+# Kết quả build
+dist/
+tmp/
+out-tsc/
+bazel-out/
+bin/
+obj/
+
+# Thư mục chứa dependencies
+node_modules/
+
+# npm/yarn logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular/CLI cache
+.angular/cache/
+.cache/
+
+# IDE & editor
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ASP.NET-specific
+App_Data/
+*.mdf
+*.ldf
+
+# Cấu hình nhạy cảm
 /Service/Service/appsettings.json
+/Service/Service/Migrations/
+# Tệp tạm, cache, build artifacts
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tmp
+*.tmp_proj
+*.log
+
+# Hệ điều hành
+.DS_Store
+Thumbs.db
