@@ -9,6 +9,8 @@ import { ContactComponent } from './components/client/contact/contact.component'
 import { VisionMissionComponent } from './components/client/vision-mission/vision-mission.component';
 import { BookingComponent } from './components/client/booking/booking.component';
 import { FormAnswerQuestionComponent } from './components/client/form-answer-question/form-answer-question.component';
+import { LoginComponent } from './components/client/login/login.component';
+import { RegisterComponent } from './components/client/register/register.component';
 
 export const routes: Routes = [
     { path: '',component: HomeComponent   },
@@ -19,5 +21,7 @@ export const routes: Routes = [
     {path: 'vision-mission', component: VisionMissionComponent},
     {path: 'contact', component: ContactComponent},
     {path: 'booking', component: BookingComponent},
-    {path:'faq', component: FormAnswerQuestionComponent}
+    {path:'faq', component: FormAnswerQuestionComponent},
+    {path: 'login', component: LoginComponent},
+    {path: 'register', component: RegisterComponent} 
 ];

@@ -1,0 +1,40 @@
+<section class="vh-100 section-bg">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          
+            <div class="card-body p-5 text-center">
+              <h3 class="mb-5">Đăng Nhập</h3>
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input formControlName="email" type="email"  class="form-control form-control-lg" placeholder="Email" />
+                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"></div>          
+                <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
+                <small *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</small>      
+              </div>
+
+              <div data-mdb-input-init class="form-outline mb-4">
+                <input formControlName="password" type="password" class="form-control form-control-lg" placeholder="Mật khẩu" />             
+                <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"></div>
+                <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</small>
+              </div>
+
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block mb-3" type="submit" [disabled]="loginForm.invalid">Đăng nhập</button>
+              </form>
+              <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+              <button [routerLink]="['/register']" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-lg btn-block mb-3" type="submit">Đăng ký</button>            
+              <hr class="my-3">
+              Hoặc
+              <hr class="my-3">
+
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary mb-3" style="background-color: #dd4b39;"
+                type="submit"><i class="fab fa-google me-2"></i> Sign in with google</button>
+
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
