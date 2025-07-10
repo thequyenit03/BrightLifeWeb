@@ -69,6 +69,13 @@ namespace Service
                     }
                 });
             });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
             var app = builder.Build();
             SeedingData(app);
             // Configure the HTTP request pipeline.
@@ -77,13 +84,14 @@ namespace Service
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
+            app.UseCors("AllowAllOrigins");
             app.UseHttpsRedirection();
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-
+            
             app.MapControllers();
 
             app.Run();

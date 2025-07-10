@@ -5,7 +5,7 @@ import { NavigationService } from '../../../model/navigation/navigation.service'
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
