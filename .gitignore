@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Service/Service/Migrations
+/Service/Service/appsettings.Development.json
+/Service/Temp.txt
+/Service/Service/appsettings.Development.json
