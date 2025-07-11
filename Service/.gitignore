@@ -32,7 +32,8 @@ Service/appsettings.Development.json
 # ====================
 # ASP.NET / IIS Express
 # ====================
-appsettings.Development.json       # chứa config local/dev secrets
+**/appsettings.Development.json      # chứa config local/dev secrets
+/Service/Service/Migrations/
 secrets.json                       # nếu bạn dùng User Secrets
 iisexpress/
 wwwroot/node_modules/
