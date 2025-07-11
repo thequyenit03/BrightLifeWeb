@@ -21,28 +21,53 @@ namespace Service.Controllers
         [Route("login")]
         public async Task<ActionResult> Login(LoginDto loginDto)
         {
-            AuthResponse authResponse = await _authService.LoginAsync(loginDto);
-            if (authResponse == null)
+            try
             {
-                return BadRequest("Invalid login attempt.");
+                AuthResponse authResponse = await _authService.LoginAsync(loginDto);
+                if (authResponse == null)
+                {
+                    return BadRequest("Invalid login attempt.");
+                }else if (!authResponse.status)
+                {
+                    return Unauthorized(authResponse);
+                }
+                    return Ok(authResponse);
+
             }
-            return Ok(authResponse);
+            catch (Exception ex)
+            {
+                // Log the exception (ex) here if needed
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
+
+            }
         }
         [HttpPost]
         [Route("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {
-            if (registerDto == null)
+            try
             {
-                return BadRequest("Register request cannot be null.");
+                if (registerDto == null)
+                {
+                    return BadRequest("Register request cannot be null.");
+                }
+                AuthResponse authResponse = await _authService.RegisterAsync(registerDto);
+                if (authResponse == null)
+                {
+                    return BadRequest("Registration failed.");
+                }else if (!authResponse.status)
+                {
+                    return Unauthorized(authResponse);
+                }
+                return Ok(authResponse);
             }
-            AuthResponse authResponse = await _authService.RegisterAsync(registerDto);
-            if (authResponse == null)
+            catch (Exception ex)
             {
-                return BadRequest("Registration failed.");
+                // Log the exception (ex) here if needed
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
-            return Ok(authResponse);
-        }
+
+            }
         [HttpGet]
         [Authorize]
         [Route("check-authentication")]

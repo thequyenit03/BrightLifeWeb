@@ -69,6 +69,13 @@ namespace Service
                     }
                 });
             });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+                                      .AllowAnyMethod()
+                                      .AllowAnyHeader());
+            });
             var app = builder.Build();
             SeedingData(app);
             // Configure the HTTP request pipeline.
@@ -77,13 +84,14 @@ namespace Service
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
+            app.UseCors("AllowAllOrigins");
             app.UseHttpsRedirection();
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-
+            
             app.MapControllers();
 
             app.Run();
@@ -118,6 +126,11 @@ namespace Service
                                     Name = "Admin",
                                     Description = "Administrator role with full access"
                                 },
+                                new Role
+                                {
+                                    Name = "User",
+                                    Description = "Regular user role with limited access"
+                                }
                             };
                     dbContext.Roles.AddRange(roles);
                     UserRole[] userRoles = new UserRole[]
@@ -125,7 +138,12 @@ namespace Service
                         new UserRole
                         {
                             UserId = users[0].Id,
-                            RoleId = 1 // Assuming role with Id 1 exists
+                            RoleId = roles[0].Id 
+                        },
+                        new UserRole
+                        {
+                            UserId = users[1].Id,
+                            RoleId = roles[1].Id
                         }
                             };
                     dbContext.UserRoles.AddRange(userRoles);
