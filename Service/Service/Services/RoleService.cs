@@ -12,19 +12,25 @@ namespace Service.Services
         {
             _context = dbContext;
         }
-        public async Task<List<string>> GetRoleByUserId(int userId)
+
+        public async Task<string> GetRoleByUserId(int userId)
         {
-            if(string.IsNullOrEmpty(userId.ToString()) || userId <= 0)
+            if (userId <= 0)
             {
-                throw new ArgumentException("UserId cannot be null or empty.", nameof(userId));
+                throw new ArgumentException("UserId must be greater than zero.", nameof(userId));
             }
-            List<string> roles = await _context.Roles.Include(r => r.UserRoles)
-                .Where(r => r.UserRoles.Any(ur => ur.UserId == userId))
-                .Select(r => r.Name).ToListAsync();
-            return roles ?? new List<string>();
 
+            UserRole? userRole = await _context.UserRoles
+                .Where(ur => ur.UserId == userId)
+                .Include(ur => ur.Roles)
+                .FirstOrDefaultAsync(ur => ur.Roles != null && ur.Roles.Name != null);
+
+            if (userRole?.Roles == null)
+            {
+                throw new InvalidOperationException("Role not found for the given user.");
+            }
+
+            return userRole.Roles.Name;
         }
-
-
     }
 }

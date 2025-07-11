@@ -33,19 +33,16 @@ namespace Service.Services
             var calms = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
 
             };
 
             //add role as claim if it exists    
-            List<string> roles = await _roleService.GetRoleByUserId(user.Id);
-            if (roles != null && roles.Count > 0)
+            string roles = await _roleService.GetRoleByUserId(user.Id);
+            if (roles != null && !string.IsNullOrEmpty(roles))
             {
-                foreach (var role in roles)
-                {
-                    calms.Add(new Claim(ClaimTypes.Role, role));
-                }
+                calms.Add(new Claim(ClaimTypes.Role, roles));
             }
             //Generate the token
             var token = new JwtSecurityToken(
@@ -56,7 +53,6 @@ namespace Service.Services
                 signingCredentials: creds
                 );
             string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
-            Console.WriteLine($"--> JWT Token: {jwtToken}");
             return jwtToken;
         }
 
@@ -93,7 +89,6 @@ namespace Service.Services
                 AuthResponse authResponse = new AuthResponse
                 {
                     Token = token,
-                    User = user
                 };
                 return Task.FromResult( authResponse);
 

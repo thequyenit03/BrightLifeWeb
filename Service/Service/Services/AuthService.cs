@@ -1,4 +1,5 @@
-﻿using Service.DTOs.Auth;
+﻿using Microsoft.EntityFrameworkCore;
+using Service.DTOs.Auth;
 using Service.DTOs.User;
 using Service.Heplers;
 using Service.Models;
@@ -10,30 +11,49 @@ namespace Service.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IJwtService _jwtService;
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
 
-        public AuthService(ApplicationDbContext context,IJwtService jwtService)
+        public AuthService(ApplicationDbContext context,IJwtService jwtService,IUserService userService,IRoleService roleService)
         {
             _context = context;
             _jwtService = jwtService;
+            _userService = userService;
+            _roleService = roleService;
 
         }
         public async Task<AuthResponse> LoginAsync(LoginDto request)
         {
             if(request == null || request.Email==null || request.Password==null)
             {
-                throw new ArgumentNullException(nameof(request), "Request cannot be null.");
+                return new AuthResponse()
+                {
+                    status = false,
+                    Token = null,
+                    Message = "Invalid request data."
+                };
             }
-            //validate the request 
-            var user = _context.Users.FirstOrDefault(u =>u.Email == request.Email);
-            if (user==null)
+            User user = await _userService.GetUserFromEmailAsync(request.Email);
+            if(user == null)
             {
-                throw new ArgumentNullException("Invalid email");
+                return new AuthResponse()
+                {
+                    status = false,
+                    Token = null,
+                    Message = "Invalid email or password."
+                };
             }
             var isValidPassword = HelperHashingPassword.VerifyPassword(request.Password, user.PasswordHash);
             if (!isValidPassword)
             {
-                throw new ArgumentException("Invalid password.", nameof(request.Password));
+                return new AuthResponse()
+                {
+                    status = false,
+                    Token = null,
+                    Message = "Invalid email or password."
+                };
             }
+
             // Generate JWT token
             UserDto userDto = new UserDto
             {
@@ -41,13 +61,14 @@ namespace Service.Services
                 FullName = user.FullName,
                 Email = user.Email,
                 UserName = user.UserName,
-                IsActive = true
+                IsActive = true,
+                Role = await _roleService.GetRoleByUserId(user.Id)
             };
             string jwtToken =await _jwtService.GenerateTokenAsync(userDto);
             AuthResponse authResponse = new AuthResponse
             {
                 Token = jwtToken,
-                User = userDto
+                
             };
             return authResponse;
 
@@ -63,28 +84,40 @@ namespace Service.Services
             // Validate the request
             if (request == null)
             {
-                throw new ArgumentNullException(nameof(request), "Request cannot be null.");
+                return new AuthResponse
+                {
+                    status = false,
+                    Message = "Invalid request data.",
+                    Token = null,
+                };
             }
             if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password) || string.IsNullOrEmpty(request.FullName))
             {
-                throw new ArgumentException("Email, Password, and FullName cannot be null or empty.", nameof(request));
+                return new AuthResponse
+                {
+                    status = false,
+                    Token = null,
+                    Message = "Email, password, and full name are required."
+                };
             }
-            var exitinguser = _context.Users.FirstOrDefault(u => u.Email == request.Email);
-            if(exitinguser != null)
-            {
-                throw new InvalidOperationException("User with this email already exists.");
-            }
-            // Hash the password
-            string hashedPassword = HelperHashingPassword.HashPassword(request.Password);
-            User user = new User
+            User? user =await _userService.CreateUserAsync(new User
             {
                 FullName = request.FullName,
                 Email = request.Email,
-                PasswordHash = hashedPassword,
                 UserName = request.UserName,
-            };
-            _context.Users.Add(user);   
-            await _context.SaveChangesAsync();
+                PasswordHash = HelperHashingPassword.HashPassword(request.Password),
+
+            });
+            if (user == null)
+            {
+                return new AuthResponse
+                {
+                    status = false,
+                    Message = "User already exists or failed to create user.",
+                    Token = null,
+                };
+            }
+
 
             UserDto userDto = new UserDto
             {
@@ -92,14 +125,15 @@ namespace Service.Services
                 FullName = user.FullName,
                 Email = user.Email,
                 UserName = user.UserName,
-                IsActive = true
+                IsActive = true,
+                Role = await _roleService.GetRoleByUserId(user.Id)
+
             };
             // Generate JWT token
             string jwtToken = await _jwtService.GenerateTokenAsync(userDto);
             AuthResponse authResponse = new AuthResponse
             {
                 Token = jwtToken,
-                User = userDto
             };
             
             return authResponse;
