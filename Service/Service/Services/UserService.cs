@@ -31,8 +31,8 @@ namespace Service.Services
                     Name = "User",
                     Description = "This role is user" };
                 _context.Roles.Add(role);
-                await _context.SaveChangesAsync();
             }
+            await _context.SaveChangesAsync();
             UserRole userRole = new UserRole
             {
                 UserId = user.Id,
