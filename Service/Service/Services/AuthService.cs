@@ -93,6 +93,7 @@ namespace Service.Services
             }
             if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password) || string.IsNullOrEmpty(request.FullName))
             {
+
                 return new AuthResponse
                 {
                     status = false,

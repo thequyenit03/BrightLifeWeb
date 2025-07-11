@@ -32,9 +32,9 @@ namespace Service.Services
             // Create the token
             var calms = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("id", user.Id.ToString()),
+                new Claim("userName", user.UserName),
+                new Claim("email", user.Email),
 
             };
 
@@ -42,7 +42,7 @@ namespace Service.Services
             string roles = await _roleService.GetRoleByUserId(user.Id);
             if (roles != null && !string.IsNullOrEmpty(roles))
             {
-                calms.Add(new Claim(ClaimTypes.Role, roles));
+                calms.Add(new Claim("role", roles));
             }
             //Generate the token
             var token = new JwtSecurityToken(

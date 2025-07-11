@@ -18,7 +18,7 @@ namespace Service.Services
             {
                 return null;
             }
-            var exitUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email || u.UserName == user.UserName);
+            var exitUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
             if (exitUser != null)
             {
                 return null;
@@ -31,8 +31,8 @@ namespace Service.Services
                     Name = "User",
                     Description = "This role is user" };
                 _context.Roles.Add(role);
-                await _context.SaveChangesAsync();
             }
+            await _context.SaveChangesAsync();
             UserRole userRole = new UserRole
             {
                 UserId = user.Id,
