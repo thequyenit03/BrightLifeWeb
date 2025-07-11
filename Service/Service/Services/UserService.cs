@@ -18,7 +18,7 @@ namespace Service.Services
             {
                 return null;
             }
-            var exitUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email || u.UserName == user.UserName);
+            var exitUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
             if (exitUser != null)
             {
                 return null;
