@@ -4,6 +4,8 @@ import { Form, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validat
 import { AuthService } from '../../../service/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { auth } from '../../../model/auth';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -16,26 +18,20 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent implements OnInit{
 
   loginForm!: FormGroup;
-  errorMessage = '';
   
   constructor(
     public auth: AuthService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private message: ToastrService
+    
   ){ }
 
   ngOnInit(): void {
       this.loginForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required]
+        password: ['', [Validators.required, Validators.minLength(8)]]
       })
-  }
-
-  get email() {
-    return this.loginForm.get('email');
-  }
-  get password() {
-    return this.loginForm.get('password');
   }
 
   onSubmit(){
@@ -44,11 +40,19 @@ export class LoginComponent implements OnInit{
     };
     this.auth.login(this.loginForm.value)
     .subscribe({
-      next: res =>{
-        console.log(res);
-        this.router.navigate(['/']);        
+      next: (res : auth) =>{
+        if(res.status){
+        this.message.success("Đăng nhập thành công !", "Thông báo !")
+        const user = this.auth.getUserFromToken()
+        console.log(res.message)      
+        console.log('User', user)
+        this.router.navigate(['/'])       
+        }else{
+          this.message.warning("Sai tài khoản hoặc mật khẩu !", " Thông báo !")
+        }
       },
-      error: err => this.errorMessage = err.error|| 'Đăng nhập thất bại',
+      error: err => this.message.error("Lỗi đăng nhập !", "Cảnh báo !") || err
+      
     })
   }
 }

@@ -6,32 +6,81 @@
           <div class="card-body p-5 text-center">
 
             <h3 class="mb-5">Đăng Ký</h3>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="" class="form-control form-control-lg" placeholder="Họ và tên" />              
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div data-mdb-input-init class="form-outline mb-3 input-data">
+              <input formControlName="fullName" class="form-control form-control-lg" placeholder="Họ và tên" />              
+              <small
+                *ngIf="registerForm.get('fullName')?.errors?.['required']
+                && (registerForm.get('fullName')?.touched 
+                || registerForm.get('fullName')?.dirty)"                  
+              >
+                Vui lòng nhập họ và tên
+              </small>
+              <small
+                *ngIf="registerForm.get('fullName')?.errors?.['maxlength']"
+              >
+                Tên không vượt quá 100 kí tự
+              </small>
+            </div>            
+             <div data-mdb-input-init class="form-outline mb-3 input-data">
+              <input type="email" formControlName="email" class="form-control form-control-lg" placeholder="Email" />              
+              <small
+                *ngIf="registerForm.get('email')?.errors?.['required']
+                && (registerForm.get('email')?.touched 
+                || registerForm.get('email')?.dirty)"                
+              >
+                Vui lòng nhập email
+              </small>
+              <small
+                *ngIf="registerForm.get('email')?.errors?.['email']
+                && !registerForm.get('email')?.errors?.['required']
+                && (registerForm.get('email')?.touched 
+                || registerForm.get('email')?.dirty)"
+              >
+                Định dạng email chưa đúng
+              </small>
             </div>
-             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="" class="form-control form-control-lg" placeholder="Số điện thoại" />              
+            <div data-mdb-input-init class="form-outline mb-3 input-data">
+              <input formControlName="userName" class="form-control form-control-lg" placeholder="Tên đăng nhập" />              
+              <small
+                *ngIf="registerForm.get('userName')?.errors?.['required']
+                && (registerForm.get('userName')?.touched 
+                || registerForm.get('userName')?.dirty)"
+              >
+                Vui lòng nhập tên đăng nhập
+              </small>
+              <small
+                *ngIf="registerForm.get('userName')?.errors?.['maxlength']"
+              >
+                Tên không vượt quá 50 kí tự
+              </small>
             </div>
 
-             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="" class="form-control form-control-lg" placeholder="Email" />              
+            <div data-mdb-input-init class="form-outline mb-3 input-data">
+              <input type="password" formControlName="password" id="password" class="form-control form-control-lg" placeholder="Mật khẩu" />              
+              <small
+                *ngIf="registerForm.get('password')?.errors?.['required']
+                && (registerForm.get('password')?.touched 
+                || registerForm.get('password')?.dirty)"
+              >
+                Mật khẩu không được để trống
+              </small>
+              <small
+                *ngIf="registerForm.get('password')?.errors?.['minlength']"
+              >
+                Mật khẩu ít nhất 8 ký tự
+              </small>
             </div>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="" class="form-control form-control-lg" placeholder="Tên đăng nhập" />              
+             <div data-mdb-input-init class="form-outline mb-3 input-data">
+              <input type="password" [formControl]="confirmPasswordControl" class="form-control form-control-lg" placeholder="Xác nhận mật khẩu" />              
+              <small
+                *ngIf="confirmPasswordControl.errors?.['mathPassword']"
+              >
+                Mật khẩu không khớp
+              </small>
             </div>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" id="" class="form-control form-control-lg" placeholder="Mật khẩu" />              
-            </div>
-
-             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="" class="form-control form-control-lg" placeholder="Xác nhận mật khẩu" />              
-            </div>
-
-
-            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block mb-3" type="submit">Đăng ký</button>
+            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block mb-3" type="submit" [disabled]="registerForm.invalid">Đăng ký</button>
+            </form>
             <p>Đã có tài khoản | <a [routerLink]="['/login']">Đăng nhập</a></p>
             <hr class="my-3">
             Hoặc

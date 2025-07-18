@@ -1,6 +1,7 @@
 import { user } from "./user";
 
-export interface auth{
-    user: user,
-    token: string
+export interface auth{    
+    token: string | null,
+    status: boolean,
+    message: string
 }
