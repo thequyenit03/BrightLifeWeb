@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Observable, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { auth } from '../model/auth';
 import { login } from '../model/login';
 import { register } from '../model/register';
+import { user } from '../model/user';
+import { jwtDecode } from 'jwt-decode';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,9 +20,21 @@ export class AuthService {
   login(login: login): Observable<auth>{
     return this.http.post<auth>(`${this.ApiUrl}/login`, login)
     .pipe(
+      catchError((err: HttpErrorResponse)=>{
+        if(err.status === 401){
+          return of({
+            token: null,
+            status: false,
+            message: err.error?.message || 'Unauthorized'
+          })
+        }
+        return throwError(() => err)
+      }),
       tap(res =>{
-        localStorage.setItem('access_token', res.token)
-        localStorage.setItem('user', JSON.stringify(res.user))
+
+        if(res.status && res.token){
+          localStorage.setItem('access_token', res.token)        
+        }        
       })
     )
   }
@@ -28,16 +42,26 @@ export class AuthService {
   register(register: register): Observable<auth>{
     return this.http.post<auth>(`${this.ApiUrl}/register`, register)
     .pipe(
+      catchError((err: HttpErrorResponse)=>{
+        if(err.status === 401){
+          return of({
+            token: null,
+            status: false,
+            message: err.error?.message || 'Unauthorized'
+          })
+        }
+        return throwError(() => err)
+      }),
       tap(res =>{
-        localStorage.setItem('access_token', res.token)
-        localStorage.setItem('user', JSON.stringify(res.user))
+        if(res.status && res.token){
+          localStorage.setItem('access_token', res.token)        
+        }
       })
     )
   }
   
   logout(): void {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('access_token');    
   }
   getToken(): string | null {
     return localStorage.getItem('access_token');
@@ -46,8 +70,14 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
-  getUser(): auth | null {
-    const user = localStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+
+  getUserFromToken(): user | null{
+    const token = this.getToken();
+    if(!token) return null;
+    try{
+      return jwtDecode<user>(token);
+    }catch{
+      return null;
+    }
   }
 }

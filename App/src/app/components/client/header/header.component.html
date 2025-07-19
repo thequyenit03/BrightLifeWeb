@@ -37,7 +37,15 @@
                             <a href="#" class="dropdown-item" onclick="setLanguage('vi')">Tiếng Việt</a>
                         </div>
                     </div>
-                    <a class="btn p-0 text-primary me-3 ms-3" href="#" [routerLink]="['login']"><i class="fa-solid fa-user"></i>  </a>                    
+                    <!-- Chỉ hiển thị login khi chưa đăng nhập -->
+                    <a class="btn p-0 text-primary me-3 ms-3" *ngIf="!isLogin()" [routerLink]="['login']">
+                        <i class="fa-solid fa-user"></i>                        
+                    </a>
+                    <!-- Chỉ hiển thị logout khi đã đăng nhập -->
+                    <a class="btn p-0 text-primary me-3" *ngIf="isLogin()" (click)="logout()">                        
+                        <i class="fa-solid fa-user"></i> Đăng xuất
+                    </a>
+                     <span class="text-primary" *ngIf="isLogin()">Xin chào, {{userName}}</span>
                 </div>
             </div>
         </div>
@@ -72,7 +80,7 @@
                 <div class="navbar-nav mx-0 mx-lg-auto">
                     <a (click)="navigateTo('')" [routerLink]="['/']" class="nav-item nav-link"
                         [routerLinkActive]="'active'" [routerLinkActiveOptions]="{exact: true}"
-                        style="white-space: nowrap;">{{message.HOME}}</a>
+                        style="white-space: nowrap;">Trang chủ</a>
                     <a (click)="navigateTo('about')" [routerLink]="['about']" class="nav-item nav-link"
                         [routerLinkActive]="'active'" style="white-space: nowrap;">Về Bright Life</a>
                     <a (click)="navigateTo('services')" [routerLink]="['services']" class="nav-item nav-link"

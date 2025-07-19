@@ -16,3 +16,12 @@ button{
   background-repeat: no-repeat;
 }
 
+small{
+  font-size: 1.1 rem;
+  color: #f01859;
+}
+
+
+.input-data{
+  height: 60px;
+}

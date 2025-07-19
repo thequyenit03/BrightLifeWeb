@@ -7,29 +7,45 @@
             <div class="card-body p-5 text-center">
               <h3 class="mb-5">Đăng Nhập</h3>
               <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-              <div data-mdb-input-init class="form-outline mb-4">
-                <input formControlName="email" type="email"  class="form-control form-control-lg" placeholder="Email" />
-                <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"></div>          
-                <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
-                <small *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email format.</small>      
+              <div data-mdb-input-init class="form-outline mb-4 input-data">
+                <input formControlName="email" type="email"  class="form-control form-control-lg" placeholder="Email" />                         
+                <small 
+                  *ngIf="loginForm.get('email')?.errors?.['required'] 
+                         && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+                  Vui lòng nhập email
+                </small>
+                <small 
+                  *ngIf="loginForm.get('email')?.errors?.['email'] 
+                         && !loginForm.get('email')?.errors?.['required'] 
+                         && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+                  Định dạng email chưa đúng
+                </small>      
               </div>
 
-              <div data-mdb-input-init class="form-outline mb-4">
+              <div data-mdb-input-init class="form-outline mb-4 input-data">
                 <input formControlName="password" type="password" class="form-control form-control-lg" placeholder="Mật khẩu" />             
                 <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"></div>
-                <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</small>
+                <small 
+                  *ngIf="loginForm.get('password')?.errors?.['required'] 
+                         && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+                  Vui lòng nhập mật khẩu
+                </small>
+                <small
+                *ngIf="loginForm.get('password')?.errors?.['minlength']"
+                >
+                  Mật khẩu ít nhất 8 ký tự.
+                </small>
               </div>
 
               <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block mb-3" type="submit" [disabled]="loginForm.invalid">Đăng nhập</button>
-              </form>
-              <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+              </form>              
               <button [routerLink]="['/register']" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-lg btn-block mb-3" type="submit">Đăng ký</button>            
               <hr class="my-3">
               Hoặc
               <hr class="my-3">
 
               <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary mb-3" style="background-color: #dd4b39;"
-                type="submit"><i class="fab fa-google me-2"></i> Sign in with google</button>
+                type="submit"><i class="fab fa-google me-2"></i> Đăng nhập bằng google</button>
 
             </div>
           
